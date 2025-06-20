@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import UsersPage from "./users/page";
+import TodoList from "./todolist/page";
 
 export const metadata ={
     title: 'Home'
@@ -9,7 +9,7 @@ export const metadata ={
 export default function Home() {
   return (
    <div>
-    <UsersPage/>
+    <h1 className="text-center text-primary mt-5 mb-5 fw-bold">hello </h1>
    </div>
   );
 }

@@ -1,94 +1,64 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  Box,
+  Button,
+  Typography,
+  Avatar,
+  Paper,
+  Stack,
+} from "@mui/material";
+import { FcGoogle } from "react-icons/fc";
 
-export default function LoginForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [status, setStatus] = useState("");
-
-  const router = useRouter();
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.email.includes("@")) {
-      setStatus("Please enter a valid email address.");
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setStatus("Password must be at least 6 characters long.");
-      return;
-    }
-
-    router.push("/");
-  };
+export default function LoginPage() {
+  const { data: session } = useSession();
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
-      <div className="col-md-6 col-lg-5">
-        <div className="card shadow rounded-4 border-0">
-          <div className="card-body p-4">
-            <h2 className="text-center mb-4 text-primary">Welcome Back 👋</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label fw-bold">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  className="form-control rounded-pill"
-                  id="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label fw-bold">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  className="form-control rounded-pill"
-                  id="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <button type="submit" className="btn btn-primary w-100 rounded-pill">
-                Login
-              </button>
-            </form>
-            <p className="text-center mt-3">
-              Don’t have an account?{" "}
-              <Link href="/register" className="text-decoration-none text-primary fw-semibold">
-                Register here
-              </Link>
-            </p>
-            {status && (
-              <div className="alert alert-info text-center mt-3 py-2" role="alert">
-                {status}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f3f3f3",
+      }}
+    >
+      <Paper sx={{ p: 4, width: 350, textAlign: "center" }} elevation={4}>
+        {session ? (
+          <Stack spacing={2}>
+            <Avatar
+              src={session.user.image}
+              alt={session.user.name}
+              sx={{ width: 80, height: 80, mx: "auto" }}
+            />
+            <Typography variant="h6">{session.user.name}</Typography>
+            <Typography variant="body2">{session.user.email}</Typography>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => signOut()}
+            >
+              تسجيل الخروج
+            </Button>
+          </Stack>
+        ) : (
+          <>
+            <Typography variant="h6" mb={3}>
+              سجل الدخول بحساب Google
+            </Typography>
+            <Button
+              variant="contained"
+              startIcon={<FcGoogle />}
+              onClick={() => signIn("google")}
+              sx={{ backgroundColor: "#4285F4", color: "#fff" }}
+              fullWidth
+            >
+              تسجيل الدخول بجوجل
+            </Button>
+          </>
+        )}
+      </Paper>
+    </Box>
   );
 }

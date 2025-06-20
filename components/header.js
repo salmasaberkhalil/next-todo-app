@@ -13,7 +13,7 @@ export default function Header() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div className="container">
         <Link href="/" className="navbar-brand fw-bold fs-4">
-          🛍️ MyStore
+        📝 TaskManager
         </Link>
         <button
           className="navbar-toggler"
@@ -34,17 +34,6 @@ export default function Header() {
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link href="/about" className="nav-link text-white">
-                About
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link href="/contact" className="nav-link text-white">
-                Contact
-              </Link>
-            </li>
-          
             <li className="nav-item">
               <Link href="/todolist" className="nav-link text-white">
                 Todo

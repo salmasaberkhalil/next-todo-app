@@ -1,5 +1,5 @@
 const { default: mongoose } = require("mongoose");
-const { unique } = require("next/dist/build/utils");
+
 
 const todoSchema= mongoose.Schema({
     title:{
